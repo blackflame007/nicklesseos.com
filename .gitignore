@@ -2,3 +2,5 @@
 /dist/
 /node_modules/
 /views/**/*.go
+terraform/.terraform/providers/registry.terraform.io/hashicorp
+terraform/.terraform.lock.hcl
