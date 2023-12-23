@@ -24,8 +24,11 @@ jobs:
     - name: Test
       run: go test -v ./...
 
-    - name: Build Docker Image
+    - name: Build Docker Image SHA
       run: docker build -t blackflame007/nicklesseos.com:${{ github.sha }} .
+      # Build latest Docker image
+    - name: Build Docker Image Latest
+      run: docker build -t blackflame007/nicklesseos.com:latest .
 
     - name: Log in to Docker Hub
       uses: docker/login-action@v1
@@ -33,5 +36,23 @@ jobs:
         username: ${{ secrets.DOCKER_HUB_USERNAME }}
         password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
-    - name: Push Docker Image
+    - name: Push Docker SHA Image
       run: docker push blackflame007/nicklesseos.com:${{ github.sha }}
+      # Push latest Docker image
+    - name: Push Docker Latest Image
+      run: docker push blackflame007/nicklesseos.com:latest
+
+    # Terraform Deployment
+    - name: Set up Terraform
+      uses: hashicorp/setup-terraform@v1
+
+    - name: Terraform Init
+      run: terraform init
+
+    - name: Terraform Plan
+      run: terraform plan
+
+    - name: Terraform Apply
+      run: terraform apply -auto-approve
+      env:
+        TF_VAR_docker_image: blackflame007/nicklesseos.com:latest
