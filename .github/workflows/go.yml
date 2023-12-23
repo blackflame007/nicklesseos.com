@@ -11,7 +11,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v3
 
     - name: Set up Go
       uses: actions/setup-go@v4
@@ -26,7 +27,7 @@ jobs:
 
     - name: Build Docker Image SHA
       run: docker build -t blackflame007/nicklesseos.com:${{ github.sha }} .
-      # Build latest Docker image
+
     - name: Build Docker Image Latest
       run: docker build -t blackflame007/nicklesseos.com:latest .
 
@@ -38,7 +39,7 @@ jobs:
 
     - name: Push Docker SHA Image
       run: docker push blackflame007/nicklesseos.com:${{ github.sha }}
-      # Push latest Docker image
+
     - name: Push Docker Latest Image
       run: docker push blackflame007/nicklesseos.com:latest
 
@@ -47,12 +48,24 @@ jobs:
       uses: hashicorp/setup-terraform@v1
 
     - name: Terraform Init
-      run: terraform init
+      run: terraform init -backend-config="access_key=${{ secrets.DO_SPACES_ACCESS_KEY }}" -backend-config="secret_key=${{ secrets.DO_SPACES_SECRET_KEY }}" -backend-config="bucket="tfstate-echobase"
 
     - name: Terraform Plan
       run: terraform plan
+      env:
+        TF_VAR_do_api_token: ${{ secrets.DO_API_TOKEN }}
+        TF_VAR_do_spaces_access_key: ${{ secrets.DO_SPACES_ACCESS_KEY }}
+        TF_VAR_do_spaces_secret_key: ${{ secrets.DO_SPACES_SECRET_KEY }}
+        TF_VAR_docker_image: blackflame007/nicklesseos.com:latest
+        TF_VAR_ssh_fingerprint: ${{ secrets.KEYPAIR_FP_PUB }}
+        TF_VAR_pvt_key: ${{ secrets.KEYPAIR_PRIVATE }}
 
     - name: Terraform Apply
       run: terraform apply -auto-approve
       env:
+        TF_VAR_do_api_token: ${{ secrets.DO_API_TOKEN }}
+        TF_VAR_do_spaces_access_key: ${{ secrets.DO_SPACES_ACCESS_KEY }}
+        TF_VAR_do_spaces_secret_key: ${{ secrets.DO_SPACES_SECRET_KEY }}
         TF_VAR_docker_image: blackflame007/nicklesseos.com:latest
+        TF_VAR_ssh_fingerprint: ${{ secrets.KEYPAIR_FP_PUB }}
+        TF_VAR_pvt_key: ${{ secrets.KEYPAIR_PRIVATE }}

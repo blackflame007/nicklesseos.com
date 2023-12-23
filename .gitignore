@@ -4,3 +4,10 @@
 /views/**/*.go
 terraform/.terraform/providers/registry.terraform.io/hashicorp
 terraform/.terraform.lock.hcl
+terraform/.terraform/providers/registry.terraform.io/digitalocean/digitalocean/2.34.1/linux_amd64
+terraform/.terraform.tfstate.lock.info
+terraform/terraform.tfstate
+terraform/terraform.tfstate.backup
+terraform/.terraform
+terraform/vars.auto.tfvars
+terraform/backend.tfvars
