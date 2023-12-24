@@ -13,6 +13,10 @@ func main() {
 
 	userHandler := handlers.UserHandler{}
 
+	app.GET("/", func(c echo.Context) error {
+		return c.String(200, "Hello, World!")
+	})
+
 	app.GET("/user", userHandler.HandleUserShow)
 	// Create a health check endpoint
 	app.GET("/health", func(c echo.Context) error {
