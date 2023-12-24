@@ -51,7 +51,7 @@ jobs:
       run: terraform init -backend-config="access_key=${{ secrets.DO_SPACES_ACCESS_KEY }}" -backend-config="secret_key=${{ secrets.DO_SPACES_SECRET_KEY }}" -backend-config="bucket=tfstate-echobase"
 
     - name: Terraform Plan
-      run: terraform plan
+      run: terraform -chdir=terraform plan
       env:
         TF_VAR_do_api_token: ${{ secrets.DO_API_TOKEN }}
         TF_VAR_do_spaces_access_key: ${{ secrets.DO_SPACES_ACCESS_KEY }}
@@ -61,7 +61,7 @@ jobs:
         TF_VAR_pvt_key: ${{ secrets.KEYPAIR_PRIVATE }}
 
     - name: Terraform Apply
-      run: terraform apply -auto-approve
+      run: terraform -chdir=terraform apply -auto-approve
       env:
         TF_VAR_do_api_token: ${{ secrets.DO_API_TOKEN }}
         TF_VAR_do_spaces_access_key: ${{ secrets.DO_SPACES_ACCESS_KEY }}
