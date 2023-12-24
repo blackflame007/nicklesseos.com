@@ -4,6 +4,8 @@ resource "digitalocean_droplet" "web_server" {
   region = var.region
   size   = "s-1vcpu-1gb"
 
+	tags = ["docker_image:${var.docker_image_tag}"]
+
   # SSH key for accessing the Droplet
   ssh_keys = [var.ssh_fingerprint]
 
