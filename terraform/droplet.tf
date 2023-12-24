@@ -10,8 +10,8 @@ resource "digitalocean_droplet" "web_server" {
   # Provisivar.regioncker image
   provisioner "remote-exec" {
     inline = [
-      "docker pull ${var.docker_image}",
-      "docker run -d -p 80:3000 ${var.docker_image}"
+      "docker pull ${var.docker_image}:${var.docker_image_tag}",
+      "docker run -d -p 80:3000 ${var.docker_image}:${var.docker_image_tag}"
     ]
   }
 
@@ -21,4 +21,5 @@ resource "digitalocean_droplet" "web_server" {
     private_key = var.pvt_key
     host        = self.ipv4_address
   }
+
 }
