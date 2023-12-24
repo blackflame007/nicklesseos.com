@@ -14,7 +14,7 @@ func main() {
 	userHandler := handlers.UserHandler{}
 
 	app.GET("/", func(c echo.Context) error {
-		return c.String(200, "Hello, World!!!!!!")
+		return c.String(200, "Hello, World!!!!!! :)!")
 	})
 
 	app.GET("/user", userHandler.HandleUserShow)
