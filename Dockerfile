@@ -1,28 +1,44 @@
-FROM golang:1.21
+# Build stage
+FROM golang:1.21 as builder
 
-# Set destination for COPY
+# Set the working directory inside the container
 WORKDIR /app
 
-# Download Go modules
+# Copy go.mod and go.sum first to leverage Docker cache
 COPY go.mod go.sum ./
 RUN go mod download
 
-# Copy the source code. Note the slash at the end, as explained in
-# https://docs.docker.com/engine/reference/builder/#copy
-COPY ./ ./
+# Copy the rest of the source code
+COPY . .
 
-# Generate HTML
+# Generate HTML using templ
 RUN go run github.com/a-h/templ/cmd/templ@latest generate
 
-# Build
-RUN CGO_ENABLED=0 GOOS=linux go build -o ./tmp/main cmd/nicklesseos.com/main.go
+# Build the Go app
+RUN CGO_ENABLED=0 GOOS=linux go build -o main cmd/nicklesseos.com/main.go
 
-# Optional:
-# To bind to a TCP port, runtime parameters must be supplied to the docker command.
-# But we can document in the Dockerfile what ports
-# the application is going to listen on by default.
-# https://docs.docker.com/engine/reference/builder/#expose
+
+
+# Final stage: Use a lightweight base image
+FROM alpine:latest
+
+# Create a user and group for running the application
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+
+# Set the working directory in the container
+WORKDIR /home/appuser
+
+# Copy the binary from the builder stage
+COPY --from=builder /app/main .
+
+# Use the non-root user
+USER appuser
+
+# Optional: Define the health check for the container
+HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 CMD [ "curl", "-f", "http://localhost:3000/health" ]
+
+# Document that the service listens on port 3000
 EXPOSE 3000
 
-# Run the application
-CMD ["./tmp/main"]
+# Run the binary
+CMD ["./main"]

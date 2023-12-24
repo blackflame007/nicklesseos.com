@@ -14,5 +14,10 @@ func main() {
 	userHandler := handlers.UserHandler{}
 
 	app.GET("/user", userHandler.HandleUserShow)
+	// Create a health check endpoint
+	app.GET("/health", func(c echo.Context) error {
+		return c.String(200, "OK")
+	})
+
 	app.Logger.Fatal(app.Start(":3000"))
 }
