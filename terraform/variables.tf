@@ -5,15 +5,15 @@ variable "ssh_fingerprint" {
 variable "pvt_key" {
     description = "The path to your private key"
 }
-variable "docker_image" {
-  description = "The Docker image to deploy"
-  default = "blackflame007/nicklesseos.com"
-}
+# variable "docker_image" {
+#   description = "The Docker image to deploy"
+#   default = "blackflame007/nicklesseos.com"
+# }
 
-variable "docker_image_tag" {
-  description = "The Docker image to deploy"
-  default = "latest"
-}
+# variable "docker_image_tag" {
+#   description = "The Docker image to deploy"
+#   default = "latest"
+# }
 
 
 variable "region" {
