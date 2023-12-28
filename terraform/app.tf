@@ -8,7 +8,7 @@ resource "digitalocean_app" "nicklesseos-com" {
       http_port = 3000
 
       github {
-        repo        = "blackflame007/nicklesseos-com"
+        repo        = "blackflame007/nicklesseos.com"
         branch      = "main"
         deploy_on_push = true
       }
