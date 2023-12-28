@@ -1,14 +1,14 @@
-resource "digitalocean_app" "nicklesseos.com" {
+resource "digitalocean_app" "nicklesseos-com" {
   spec {
-    name   = "nicklesseos.com"
+    name   = "nicklesseos-com"
     region = var.region
 
     service {
-      name      = "nicklesseos.com"
+      name      = "nicklesseos-com"
       http_port = 3000
 
       github {
-        repo        = "blackflame007/nicklesseos.com"
+        repo        = "blackflame007/nicklesseos-com"
         branch      = "main"
         deploy_on_push = true
       }
