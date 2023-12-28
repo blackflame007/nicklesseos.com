@@ -3,6 +3,17 @@ resource "digitalocean_app" "nicklesseos-com" {
     name   = "nicklesseos-com"
     region = var.region
 
+    // Define the domain
+    domain {
+      name = "nicklesseos.com"
+      type = "PRIMARY"
+    }
+
+    # domain {
+    #   name = "www.nicklesseos.com"
+    #   type = "ALIAS"
+    # }
+
     service {
       name      = "nicklesseos-com"
       http_port = 3000
