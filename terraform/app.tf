@@ -1,10 +1,10 @@
-resource "digitalocean_app" "golang-docker" {
+resource "digitalocean_app" "nicklesseos.com" {
   spec {
-    name   = "golang-sample"
+    name   = "nicklesseos.com"
     region = var.region
 
     service {
-      name      = "go-service"
+      name      = "nicklesseos.com"
       http_port = 3000
 
       github {
