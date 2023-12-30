@@ -5,7 +5,7 @@ resource "digitalocean_app" "nicklesseos-com" {
 
     // Define the domain
     domain {
-      name = "nicklesseos.com"
+      name = digitalocean_domain.default.name
       type = "PRIMARY"
     }
 
