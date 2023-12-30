@@ -3,15 +3,30 @@ package layouts
 templ Base(view templ.Component) {
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>nicklesseos.com</title>
-  </head>
-  <body>
-  <p>Test in layout... test</p>
-  {children...}
-  @view
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/dist/js/app.js"></script>
+    <style>
+      .theme-dark {
+        --tw-bg-opacity: 1;
+        background-color: rgba(43, 46, 74, var(--tw-bg-opacity)); /* darkBlue */
+        color: white;
+      }
+      .theme-light {
+        --tw-bg-opacity: 1;
+        background-color: rgba(29, 91, 121, var(--tw-bg-opacity)); /* lightBlue */
+        color: black;
+      }
+    </style>
+    <script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
+</head>
+  <body class="theme-dark">
+    @header()
+    {children...}
+    @view
   </body>
 </html>
 

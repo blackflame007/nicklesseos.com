@@ -1,0 +1,18 @@
+package layouts
+
+templ header() {
+    <header class="bg-darkBlue text-white">
+        <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+            <a class="flex title-font font-medium items-center mb-4 md:mb-0">
+                <span class="ml-3 text-xl text-brightRed">nicklesseos.com</span>
+            </a>
+            <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
+                <a href="#home" class="mr-5 hover:text-deepRed">Home</a>
+                <a href="#about" class="mr-5 hover:text-deepRed">About</a>
+                <a href="#contact" class="mr-5 hover:text-deepRed">Contact</a>
+            </nav>
+            <button onclick="toggleTheme()" class="py-2 px-4 bg-brightRed text-white rounded">Toggle Theme</button>
+        </div>
+    </header>
+}
+
