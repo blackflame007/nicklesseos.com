@@ -1,19 +1,19 @@
 package layouts
 
 templ Base(view templ.Component) {
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="robots" content="index, follow"/>
-		<meta name="revisit-after" content="7 days"/>
-		<meta name="language" content="English"/>
-    <meta name="description" content="nicklesseos.com is hub of Game Development, Web Development, and Software Development." />
-    <title>nicklesseos.com</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="/dist/js/app.js"></script>
-    <style>
+	<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="UTF-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+			<meta name="robots" content="index, follow"/>
+			<meta name="revisit-after" content="7 days"/>
+			<meta name="language" content="English"/>
+			<meta name="description" content="nicklesseos.com is hub of Game Development, Web Development, and Software Development."/>
+			<title>nicklesseos.com</title>
+			<script src="/dist/js/bundle.js" defer></script>
+			<link rel="stylesheet" href="/dist/css/bundle.css"/>
+			<style>
       .theme-dark {
         --tw-bg-opacity: 1;
         background-color: rgba(43, 46, 74, var(--tw-bg-opacity)); /* darkBlue */
@@ -25,13 +25,12 @@ templ Base(view templ.Component) {
         color: black;
       }
     </style>
-    <script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
-</head>
-  <body class="theme-dark">
-    @header()
-    {children...}
-    @view
-  </body>
-</html>
-
+			<script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
+		</head>
+		<body data-theme="dark">
+			@header()
+			{ children... }
+			@view
+		</body>
+	</html>
 }
