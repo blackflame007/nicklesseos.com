@@ -13,21 +13,9 @@ templ Base(view templ.Component) {
 			<title>nicklesseos.com</title>
 			<script src="/dist/js/bundle.js" defer></script>
 			<link rel="stylesheet" href="/dist/css/bundle.css"/>
-			<style>
-      .theme-dark {
-        --tw-bg-opacity: 1;
-        background-color: rgba(43, 46, 74, var(--tw-bg-opacity)); /* darkBlue */
-        color: white;
-      }
-      .theme-light {
-        --tw-bg-opacity: 1;
-        background-color: rgba(29, 91, 121, var(--tw-bg-opacity)); /* lightBlue */
-        color: black;
-      }
-    </style>
 			<script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
 		</head>
-		<body data-theme="dark">
+		<body data-theme="night">
 			@header()
 			{ children... }
 			@view
