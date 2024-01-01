@@ -9,10 +9,10 @@ resource "digitalocean_app" "nicklesseos-com" {
       type = "PRIMARY"
     }
 
-    domain {
-      name = "www.nicklesseos.com"
-      type = "ALIAS"
-    }
+    # domain {
+    #   name = "www.nicklesseos.com"
+    #   type = "ALIAS"
+    # }
 
     service {
       name      = "nicklesseos-com"
