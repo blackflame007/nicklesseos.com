@@ -20,9 +20,12 @@ func main() {
 	app.Use(middleware.Recover())
 
 	homeHandler := handlers.HomeHandler{}
+	aboutHandler := handlers.AboutHandler{}
 	userHandler := handlers.UserHandler{}
 
 	app.GET("/", homeHandler.IndexPage)
+
+	app.GET("/about", aboutHandler.AboutPage)
 
 	app.GET("/user", userHandler.HandleUserShow)
 	// Create a health check endpoint
