@@ -15,7 +15,7 @@ templ Base(view templ.Component) {
 			<link rel="stylesheet" href="/dist/css/bundle.css"/>
 			<script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
 		</head>
-		<body data-theme="night">
+		<body data-theme="night" class="grid grid-rows-[auto_1fr_auto] h-screen">
 			@header()
 			{ children... }
 			@view
