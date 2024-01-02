@@ -37,6 +37,11 @@ func main() {
 		return c.String(200, "OK")
 	})
 
+	// Create robots.txt endpoint allow all
+	app.GET("/robots.txt", func(c echo.Context) error {
+		return c.String(200, "User-agent: *\nDisallow:")
+	})
+
 	// 404 page
 	app.GET("*", notfoundHandler.NotFoundPage)
 
