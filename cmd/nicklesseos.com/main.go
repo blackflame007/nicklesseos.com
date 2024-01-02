@@ -22,16 +22,23 @@ func main() {
 	homeHandler := handlers.HomeHandler{}
 	aboutHandler := handlers.AboutHandler{}
 	userHandler := handlers.UserHandler{}
+	notfoundHandler := handlers.NotFoundHandler{}
+	soonHandler := handlers.SoonHandler{}
 
 	app.GET("/", homeHandler.IndexPage)
 
 	app.GET("/about", aboutHandler.AboutPage)
+
+	app.GET("/portfolio", soonHandler.SoonPage)
 
 	app.GET("/user", userHandler.HandleUserShow)
 	// Create a health check endpoint
 	app.GET("/health", func(c echo.Context) error {
 		return c.String(200, "OK")
 	})
+
+	// 404 page
+	app.GET("*", notfoundHandler.NotFoundPage)
 
 	// // Serve static files
 	// Serve embedded static files
