@@ -23,7 +23,7 @@ func About() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<section class=\"hero bg-base-200\"><div class=\"hero-content flex-col lg:flex-row-reverse\"><img src=\"/dist/img/nick_profile.jpg\" class=\"max-w-sm rounded-lg shadow-2xl mask mask-circle\" style=\"mask-position: -1rem 4rem;\"><div><h1 class=\"text-5xl font-bold\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<section class=\"hero bg-base-200\"><div class=\"hero-content flex-col lg:flex-row-reverse\"><img src=\"/dist/img/generated/nick_profile.webp\" alt=\"picture of Nick Lesseos\" class=\"max-w-sm rounded-lg shadow-2xl mask mask-circle\" style=\"mask-position: -1rem 4rem;\"><div><h1 class=\"text-5xl font-bold\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

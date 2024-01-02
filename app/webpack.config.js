@@ -1,10 +1,13 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   mode: 'development', // 'production' for minified code
   entry: './src/index.ts',
-  optimization: { usedExports: false },
   module: {
     rules: [
       {
@@ -26,8 +29,46 @@ module.exports = {
             },
           },
         ]
-      }
+      },
+      {
+        test: /\.(jpe?g|png|gif)$/i,
+        type: 'asset/resource',
+        use: [
+          {
+            loader: ImageMinimizerPlugin.loader,
+            options: {
+              minimizer: {
+                implementation: ImageMinimizerPlugin.sharpGenerate,
+                options: {
+                  encodeOptions: {
+                    webp: {
+                      quality: 90,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        ],
+        generator: {
+          filename: '../img/generated/[name][ext]' // Output WebP images to 'img/generated' folder
+        }
+      },
+
+      {
+        test: /\.svg$/,
+        type: 'asset/resource',
+        generator: {
+          filename: '../img/[name][ext][query]' // Output SVGs to 'img' folder
+        }
+      },
     ]
+  },
+  optimization: {
+    minimizer: [
+      new TerserPlugin(), // Minimize JavaScript
+      new CssMinimizerPlugin(), // Minimize CSS
+    ],
   },
   resolve: {
     extensions: ['.ts', '.js']
@@ -35,7 +76,12 @@ module.exports = {
   plugins: [
     new MiniCssExtractPlugin({
       filename: '../css/bundle.css' // Adjusted path
-    })
+    }),
+    new CopyPlugin({ 
+      patterns: [
+        { from: "src/img", to: "../img/", }
+      ]
+  })
   ],
   output: {
     filename: 'bundle.js',
