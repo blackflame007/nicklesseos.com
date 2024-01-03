@@ -90,7 +90,7 @@ func About() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Var9 := `Creative Force and Technical Expert`
+		templ_7745c5c3_Var9 := `Collaborative and Communicative Leader`
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var9)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -99,7 +99,7 @@ func About() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Var10 := `Recognized for my innovative thinking and technical acumen, I have been a driving force behind the success of our team. I thrive on bringing fresh, creative solutions to the table, consistently challenging traditional development approaches. My expertise spans a wide array of programming languages, frameworks, and tools, enabling me to craft elegant solutions for complex problems. This technical prowess has significantly impacted our projects, elevating the team's reputation for excellence.`
+		templ_7745c5c3_Var10 := `My approach to software engineering is deeply rooted in collaboration and effective communication. Working seamlessly with cross-functional teams, I share my knowledge and expertise to foster a positive, productive environment. This collaborative spirit not only improves team dynamics but also enhances project outcomes. My commitment to quality, even under tight timelines, has become a cornerstone of our team's success.`
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var10)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -108,44 +108,8 @@ func About() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Var11 := `Collaborative and Communicative Leader`
+		templ_7745c5c3_Var11 := `Arch Linux Enthusiast and Software/Game Developer`
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var11)
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h4><p class=\"text-xl mb-5\">")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Var12 := `My approach to software engineering is deeply rooted in collaboration and effective communication. Working seamlessly with cross-functional teams, I share my knowledge and expertise to foster a positive, productive environment. This collaborative spirit not only improves team dynamics but also enhances project outcomes. My commitment to quality, even under tight timelines, has become a cornerstone of our team's success.`
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var12)
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p><h4 class=\"text-2xl font-bold mb-3\">")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Var13 := `Empowering Others and Embracing Continuous Learning`
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var13)
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h4><p class=\"text-xl mb-5\">")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Var14 := `In my journey, I've found great value in both sharing knowledge and embracing continuous self-improvement. I enjoy guiding my colleagues, including those more senior, offering insights that help them excel in their roles. This collaborative exchange of ideas is not just about mentorship; it's about creating a culture of mutual learning and growth. My enthusiasm for staying abreast of new technologies and trends is driven by a belief that ongoing education is key to both personal and professional development. It’s this blend of teaching and learning that keeps our team dynamic, innovative, and constantly evolving.`
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var14)
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p><h4 class=\"text-2xl font-bold mb-3\">")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Var15 := `Arch Linux Enthusiast and Software/Game Developer`
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var15)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -153,8 +117,8 @@ func About() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Var16 := `Beyond my professional pursuits, I am an avid enthusiast of Arch Linux, appreciating its flexibility and the control it offers. This passion for open-source systems extends into my interest in software and game development. Merging creativity with technical skills, I develop tools and games in my spare time. These projects are more than just hobbies; they represent my commitment to exploring new technologies and pushing the boundaries of what I can create. Whether it's developing innovative software solutions or engaging interactive games, my aim is to enhance user experiences and streamline processes through intelligent design and development.`
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var16)
+		templ_7745c5c3_Var12 := `Beyond my professional pursuits, I am an avid enthusiast of Arch Linux, appreciating its flexibility and the control it offers. This passion for open-source systems extends into my interest in software and game development. Merging creativity with technical skills, I develop tools and games in my spare time. These projects are more than just hobbies; they represent my commitment to exploring new technologies and pushing the boundaries of what I can create. Whether it's developing innovative software solutions or engaging interactive games, my aim is to enhance user experiences and streamline processes through intelligent design and development.`
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var12)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
