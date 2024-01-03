@@ -23,7 +23,7 @@ func About() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<section class=\"hero bg-base-200\"><div class=\"hero-content flex-col lg:flex-row-reverse\"><img src=\"/dist/img/generated/nick_profile.webp\" alt=\"picture of Nick Lesseos\" class=\"max-w-sm rounded-lg shadow-2xl mask mask-circle\" style=\"mask-position: -1rem 4rem;\"><div><h1 class=\"text-5xl font-bold\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<section class=\"hero bg-base-200\"><div class=\"hero-content flex-col lg:flex-row-reverse\"><img src=\"/dist/img/generated/nick_profile.webp\" alt=\"picture of Nick Lesseos\" class=\"max-w-xs rounded-lg shadow-2xl mask mask-circle\" style=\"mask-position: -1rem 3.3rem;\"><div><h1 class=\"text-5xl font-bold\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -32,7 +32,7 @@ func About() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h1><p class=\"py-6\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h1><p class=\"py-6 md:max-sm:py-0\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -59,7 +59,7 @@ func About() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("--><section class=\"py-12 bg-neutral text-neutral-content\"><div class=\"container mx-auto\"><h2 class=\"text-4xl font-bold text-center mb-6\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("--><section class=\"py-12 bg-neutral text-neutral-content\"><div class=\"container mx-auto px-5\"><h2 class=\"text-4xl font-bold text-center mb-6\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
