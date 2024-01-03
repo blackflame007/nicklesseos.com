@@ -32,7 +32,7 @@ func Index() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("--><section class=\"hero bg-base-100 text-neutral-content\"><div class=\"text-center hero-content\"><div class=\"max-w-md\"><h1 class=\"mb-5 text-5xl font-bold\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("--><section class=\"hero bg-base-100 text-neutral-content\"><div class=\"text-center hero-content\"><div class=\"max-w-xs sm:max-w-md\"><h1 class=\"mb-5 text-3xl sm:text-5xl font-bold\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
