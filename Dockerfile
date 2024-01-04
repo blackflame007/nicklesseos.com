@@ -12,7 +12,7 @@ RUN go mod download
 COPY . .
 
 # Install Node.js and npm
-RUN apt-get update && apt-get install -y nodejs npm
+RUN apt-get update && apt-get install -y nodejs npm make
 
 # Generate HTML and build the Go app using your Makefile
 RUN make build
