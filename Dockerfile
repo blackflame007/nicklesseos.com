@@ -1,5 +1,26 @@
-# Build stage for Go and Node.js
-FROM golang:1.21 as builder
+# Build stage for Node.js
+FROM node:21-slim as builder-node
+
+# Set the working directory for Node.js
+WORKDIR /app
+
+# Install make
+RUN apt-get update && apt-get install -y make
+
+# Copy make file
+COPY Makefile ./
+
+# Copy the Node.js application and dependencies
+COPY app/package.json app/package-lock.json ./
+
+# Copy the frontend source code
+COPY ./ ./
+
+# Build the Node.js frontend
+RUN make build-js
+
+# Final stage for Go
+FROM golang:1.21 as builder-go
 
 # Set the working directory inside the container
 WORKDIR /app
@@ -8,32 +29,14 @@ WORKDIR /app
 COPY go.mod go.sum ./
 RUN go mod download
 
+# Copy the Node.js frontend assets from the "builder-node" stage to the Go app directory
+COPY --from=builder-node /app/app/assets/dist ./app/assets/dist
+
 # Copy the rest of the source code
-COPY . .
+COPY ./ ./
 
-# Install Node.js and npm
-RUN apt-get update && apt-get install -y nodejs npm make
-
-# Generate HTML and build the Go app using your Makefile
+# Generate HTML using templ and build the Go app
 RUN make build
-
-# Final stage: Use a lightweight base image
-FROM alpine:latest
-
-# Create a user and group for running the application
-RUN addgroup -S appgroup && adduser -S appuser -G appgroup
-
-# Set the working directory in the container
-WORKDIR /home/appuser
-
-# Copy the binary from the builder stage
-COPY --from=builder /app/tmp/main .
-
-# Install make in the final image
-RUN apk --no-cache add make
-
-# Use the non-root user
-USER appuser
 
 # Optional: Define the health check for the container
 HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 CMD [ "curl", "-f", "http://localhost:3000/health" ]

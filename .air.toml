@@ -6,7 +6,7 @@ tmp_dir = "tmp"
 args_bin = []
 bin = "./tmp/main"
 # Array of commands to run before each build
-# pre_cmd = []
+pre_cmd = ["make build-js"]
 cmd = "make build"
 delay = 0
 exclude_dir = [
