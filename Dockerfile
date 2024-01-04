@@ -1,4 +1,4 @@
-# Build stage
+# Build stage for Go and Node.js
 FROM golang:1.21 as builder
 
 # Set the working directory inside the container
@@ -11,13 +11,11 @@ RUN go mod download
 # Copy the rest of the source code
 COPY . .
 
-# Generate HTML using templ
-RUN go run github.com/a-h/templ/cmd/templ@latest generate
+# Install Node.js and npm
+RUN apt-get update && apt-get install -y nodejs npm
 
-# Build the Go app
-RUN CGO_ENABLED=0 GOOS=linux go build -o main cmd/nicklesseos.com/main.go
-
-
+# Generate HTML and build the Go app using your Makefile
+RUN make build
 
 # Final stage: Use a lightweight base image
 FROM alpine:latest
@@ -29,7 +27,7 @@ RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 WORKDIR /home/appuser
 
 # Copy the binary from the builder stage
-COPY --from=builder /app/main .
+COPY --from=builder /app/tmp/main .
 
 # Use the non-root user
 USER appuser
@@ -40,5 +38,5 @@ HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 CMD [ "cu
 # Document that the service listens on port 3000
 EXPOSE 3000
 
-# Run the binary
-CMD ["./main"]
+# Run the binary using your Makefile's "run" target
+CMD ["make", "run"]
