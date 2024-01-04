@@ -29,6 +29,9 @@ WORKDIR /home/appuser
 # Copy the binary from the builder stage
 COPY --from=builder /app/tmp/main .
 
+# Install make in the final image
+RUN apk --no-cache add make
+
 # Use the non-root user
 USER appuser
 
