@@ -1,20 +1,20 @@
 variable "do_token" {}
 variable "ssh_fingerprint" {
-    description = "The SSH fingerprint of your public key"
+  description = "The SSH fingerprint of your public key"
 }
 variable "pvt_key" {
-    description = "The path to your private key"
+  description = "The path to your private key"
 }
 
 variable "region" {
   description = "The region to deploy to"
-  default = "sfo3"
-  
+  default     = "sfo3"
+
 }
 
 variable "do_space_name" {
-    description = "The name of your DigitalOcean Space"
-    default = "tfstate-echobase"
+  description = "The name of your DigitalOcean Space"
+  default     = "nicklesseos-com-space"
 }
 
 
