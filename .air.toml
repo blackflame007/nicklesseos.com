@@ -6,11 +6,8 @@ tmp_dir = "tmp"
 args_bin = []
 bin = "./tmp/main"
 # Array of commands to run before each build
-pre_cmd = [
-  "go run github.com/a-h/templ/cmd/templ@latest generate",
-  "npm --prefix app run build",
-]
-cmd = "go build -o ./tmp/main cmd/nicklesseos.com/main.go"
+# pre_cmd = []
+cmd = "make build"
 delay = 0
 exclude_dir = [
   "node_modules",

@@ -12,7 +12,8 @@ resource "digitalocean_app" "nicklesseos-com" {
     service {
       name      = "nicklesseos-com"
       http_port = 3000
-
+      run_command = "make run"
+      
       github {
         repo           = "blackflame007/nicklesseos.com"
         branch         = "main"
