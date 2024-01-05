@@ -3,7 +3,7 @@ resource "digitalocean_domain" "default" {
   name = "nicklesseos.com"
 }
 
-resource "digitalocean_domain" "default" {
+resource "digitalocean_domain" "wildcard" {
   name = "*.${digitalocean_domain.default.name}"
 }
 
