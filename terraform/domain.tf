@@ -8,5 +8,5 @@ resource "digitalocean_record" "www" {
   domain = digitalocean_domain.default.name
   type   = "CNAME"
   name   = "www"
-  value  = digitalocean_app.nicklesseos-com.live_url
+  value  = "@"
 }
