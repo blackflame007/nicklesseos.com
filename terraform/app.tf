@@ -3,6 +3,31 @@ resource "digitalocean_app" "nicklesseos-com" {
     name   = "nicklesseos-com"
     region = var.region
 
+    env {
+      key   = AWS_ACCESS_KEY_ID
+      value = var.do_spaces_access_key
+    }
+
+    env {
+      key   = AWS_SECRET_ACCESS_KEY
+      value = var.do_spaces_secret_key
+    }
+
+    env {
+      key   = DO_SPACE_NAME
+      value = var.do_space_name
+    }
+
+    env {
+      key   = GOOGLE_CLIENT_ID
+      value = var.google_client_id
+    }
+
+    env {
+      key   = GOOGLE_CLIENT_SECRET
+      value = var.google_client_secret
+    }
+
     // Define the domain
     domain {
       name = digitalocean_domain.default.name
@@ -10,10 +35,10 @@ resource "digitalocean_app" "nicklesseos-com" {
     }
 
     service {
-      name      = "nicklesseos-com"
-      http_port = 3000
+      name            = "nicklesseos-com"
+      http_port       = 3000
       dockerfile_path = "./Dockerfile"
-      
+
       github {
         repo           = "blackflame007/nicklesseos.com"
         branch         = "main"

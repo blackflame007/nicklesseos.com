@@ -1,0 +1,13 @@
+package components
+
+templ AuthButton(auth bool) {
+	if auth {
+		<a href="/logout" class="btn btn-secondary mt-3 sm:mt-0">Logout</a>
+	} else {
+		<div class="flex items-center justify-center">
+			<a href="/login" class="btn btn-primary mt-3 sm:mt-0">
+				Login with Google
+			</a>
+		</div>
+	}
+}

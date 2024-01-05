@@ -1,6 +1,6 @@
 package layouts
 
-templ Base(view templ.Component) {
+templ Base(view templ.Component, isAuthenticated bool) {
 	<!DOCTYPE html>
 	<html lang="en">
 		<head>
@@ -17,7 +17,7 @@ templ Base(view templ.Component) {
 			<script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
 		</head>
 		<body data-theme="night" class="grid grid-rows-[auto_1fr_auto] h-screen">
-			@header()
+			@header(isAuthenticated)
 			{ children... }
 			@view
 			@footer()

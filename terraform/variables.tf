@@ -1,10 +1,4 @@
 variable "do_token" {}
-variable "ssh_fingerprint" {
-  description = "The SSH fingerprint of your public key"
-}
-variable "pvt_key" {
-  description = "The path to your private key"
-}
 
 variable "region" {
   description = "The region to deploy to"
@@ -25,5 +19,15 @@ variable "do_spaces_access_key" {
 
 variable "do_spaces_secret_key" {
   description = "DigitalOcean Spaces Secret Key"
+  type        = string
+}
+
+variable "google_client_id" {
+  description = "Google Client ID"
+  type        = string
+}
+
+variable "google_client_secret" {
+  description = "Google Client Secret"
   type        = string
 }

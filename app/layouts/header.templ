@@ -1,6 +1,8 @@
 package layouts
 
-templ header() {
+import "github.com/blackflame007/nicklesseos.com/app/components"
+
+templ header(isAuthenticated bool) {
 	<header class="bg-neutral p-5">
 		<div class="container mx-auto flex flex-wrap justify-between items-center">
 			<a class="text-primary font-bold text-xl" href="/">
@@ -14,6 +16,7 @@ templ header() {
 				</ul>
 			</nav>
 			<button onclick="toggleTheme()" class="btn btn-primary mt-3 sm:mt-0">Toggle Theme</button>
+			@components.AuthButton(isAuthenticated)
 		</div>
 	</header>
 }
