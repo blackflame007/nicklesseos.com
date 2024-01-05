@@ -45,10 +45,10 @@ resource "digitalocean_app" "nicklesseos-com" {
     }
 
     // Add www Alias
-    domain {
-      name = "www.${digitalocean_domain.default.name}"
-      type = "ALIAS"
-    }
+    # domain {
+    #   name = "www.${digitalocean_domain.default.name}"
+    #   type = "ALIAS"
+    # }
 
     service {
       name            = "nicklesseos-com"
