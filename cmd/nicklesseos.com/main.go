@@ -4,6 +4,7 @@ package main
 import (
 	"log/slog"
 	"net/http"
+	"os"
 
 	"github.com/blackflame007/nicklesseos.com/app/assets"
 	"github.com/blackflame007/nicklesseos.com/handlers"
@@ -36,13 +37,20 @@ func main() {
 		slog.Warn("Error loading .env file")
 	}
 
+	// Use an environment variable for the session key
+	sessionKey := os.Getenv("SESSION_KEY")
+	if sessionKey == "" {
+		slog.Error("Session key is not set. Exiting.")
+		return
+	}
+
 	// Create Web Server
 	app := echo.New()
 
 	// Root level middleware
 	app.Use(middleware.Logger())
 	app.Use(middleware.Recover())
-	app.Use(session.Middleware(sessions.NewCookieStore([]byte("your-very-long-and-secure-secret-key"))))
+	app.Use(session.Middleware(sessions.NewCookieStore([]byte(sessionKey))))
 
 	homeHandler := handlers.HomeHandler{}
 	aboutHandler := handlers.AboutHandler{}

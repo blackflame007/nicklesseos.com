@@ -38,6 +38,8 @@ jobs:
           TF_VAR_do_space_name: ${{ secrets.DO_SPACE_NAME }}
           TF_VAR_google_client_id: ${{ secrets.GOOGLE_CLIENT_ID }}
           TF_VAR_google_client_secret: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          TF_VAR_google_oauth_redirect_url: ${{ secrets.GOOGLE_OAUTH_REDIRECT_URL }}
+          TF_VAR_session_secret: ${{ secrets.SESSION_KEY }}
 
       - name: Terraform Apply
         run: terraform -chdir=terraform apply -auto-approve
@@ -48,3 +50,5 @@ jobs:
           TF_VAR_do_space_name: ${{ secrets.DO_SPACE_NAME }}
           TF_VAR_google_client_id: ${{ secrets.GOOGLE_CLIENT_ID }}
           TF_VAR_google_client_secret: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          TF_VAR_google_oauth_redirect_url: ${{ secrets.GOOGLE_OAUTH_REDIRECT_URL }}
+          TF_VAR_session_secret: ${{ secrets.SESSION_KEY }}

@@ -31,3 +31,13 @@ variable "google_client_secret" {
   description = "Google Client Secret"
   type        = string
 }
+
+variable "google_oauth_redirect_url" {
+  description = "Google OAuth Redirect URL"
+  type        = string
+}
+
+variable "session_secret" {
+  description = "Session Secret"
+  type        = string
+}

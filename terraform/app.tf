@@ -28,6 +28,16 @@ resource "digitalocean_app" "nicklesseos-com" {
       value = var.google_client_secret
     }
 
+    env {
+      key   = "GOOGLE_OAUTH_REDIRECT_URL"
+      value = var.google_oauth_redirect_url
+    }
+
+    env {
+      key   = "SESSION_KEY"
+      value = var.session_secret
+    }
+
     // Define the domain
     domain {
       name = digitalocean_domain.default.name

@@ -2,6 +2,8 @@ package handlers
 
 import (
 	"context"
+	"crypto/rand"
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -20,9 +22,14 @@ type GoogleHandler struct {
 }
 
 func NewGoogleHandler() GoogleHandler {
+	redirectURL := os.Getenv("GOOGLE_OAUTH_REDIRECT_URL") // Set this in your environment
+	if redirectURL == "" {
+		redirectURL = "http://localhost:3000/auth/google/callback" // Default for development
+	}
+
 	return GoogleHandler{
 		googleOauthConfig: &oauth2.Config{
-			RedirectURL:  "http://localhost:3000/auth/google/callback",
+			RedirectURL:  redirectURL,
 			ClientID:     os.Getenv("GOOGLE_CLIENT_ID"),
 			ClientSecret: os.Getenv("GOOGLE_CLIENT_SECRET"),
 			Scopes:       []string{"https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile", "openid"},
@@ -32,8 +39,21 @@ func NewGoogleHandler() GoogleHandler {
 }
 
 func (gh GoogleHandler) HandleGoogleLogin(c echo.Context) error {
+	// Generate a random state
+	b := make([]byte, 32)
+	_, err := rand.Read(b)
+	if err != nil {
+		return c.String(http.StatusInternalServerError, "Failed to generate state: "+err.Error())
+	}
+	state := base64.StdEncoding.EncodeToString(b)
+
+	// Store the state in session
+	sess, _ := session.Get("session", c)
+	sess.Values["state"] = state
+	sess.Save(c.Request(), c.Response())
+
 	// Include a prompt parameter in the AuthCodeURL method
-	url := gh.googleOauthConfig.AuthCodeURL("your_random_state", oauth2.AccessTypeOffline, oauth2.ApprovalForce, oauth2.SetAuthURLParam("prompt", "select_account"))
+	url := gh.googleOauthConfig.AuthCodeURL(state, oauth2.AccessTypeOffline, oauth2.ApprovalForce, oauth2.SetAuthURLParam("prompt", "select_account"))
 	return c.Redirect(http.StatusTemporaryRedirect, url)
 }
 
