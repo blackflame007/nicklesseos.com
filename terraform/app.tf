@@ -44,6 +44,12 @@ resource "digitalocean_app" "nicklesseos-com" {
       type = "PRIMARY"
     }
 
+    // Add www Alias
+    domain {
+      name = "www.${digitalocean_domain.default.name}"
+      type = "ALIAS"
+    }
+
     service {
       name            = "nicklesseos-com"
       http_port       = 3000
