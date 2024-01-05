@@ -1,4 +1,5 @@
-# nicklesseos.com
+# nicklesseos.com ![workflow name](https://github.com/blackflame007/nicklesseos.com/actions/workflows/go.yml/badge.svg)
+
 
 Welcome to the Source Code for my website. I will be using this to showcase some of my work here.
 
