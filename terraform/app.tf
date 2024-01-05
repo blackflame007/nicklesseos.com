@@ -40,8 +40,9 @@ resource "digitalocean_app" "nicklesseos-com" {
 
     // Define the domain
     domain {
-      name = digitalocean_domain.default.name
-      type = "PRIMARY"
+      name     = digitalocean_domain.default.name
+      type     = "PRIMARY"
+      wildcard = false
     }
 
     service {
