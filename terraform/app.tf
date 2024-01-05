@@ -4,27 +4,27 @@ resource "digitalocean_app" "nicklesseos-com" {
     region = var.region
 
     env {
-      key   = AWS_ACCESS_KEY_ID
+      key   = "AWS_ACCESS_KEY_ID"
       value = var.do_spaces_access_key
     }
 
     env {
-      key   = AWS_SECRET_ACCESS_KEY
+      key   = "AWS_SECRET_ACCESS_KEY"
       value = var.do_spaces_secret_key
     }
 
     env {
-      key   = DO_SPACE_NAME
+      key   = "DO_SPACE_NAME"
       value = var.do_space_name
     }
 
     env {
-      key   = GOOGLE_CLIENT_ID
+      key   = "GOOGLE_CLIENT_ID"
       value = var.google_client_id
     }
 
     env {
-      key   = GOOGLE_CLIENT_SECRET
+      key   = "GOOGLE_CLIENT_SECRET"
       value = var.google_client_secret
     }
 
