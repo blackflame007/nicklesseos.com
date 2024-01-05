@@ -40,17 +40,9 @@ resource "digitalocean_app" "nicklesseos-com" {
 
     // Define the domain
     domain {
-      name     = digitalocean_domain.default.name
-      type     = "PRIMARY"
-      wildcard = true
+      name = digitalocean_domain.default.name
+      type = "PRIMARY"
     }
-
-    // Add www Alias
-    # domain {
-    #   name     = "*.${digitalocean_domain.default.name}"
-    #   type     = "ALIAS"
-    #   wildcard = true
-    # }
 
     service {
       name            = "nicklesseos-com"
