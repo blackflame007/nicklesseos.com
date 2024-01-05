@@ -3,6 +3,7 @@ package handlers
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"io"
 	"log/slog"
 	"net/http"
@@ -80,7 +81,8 @@ func (gh GoogleHandler) HandleLogout(c echo.Context) error {
 	}
 
 	// Log current session values for debugging
-	slog.Info("Current Session Values: ", sess.Values)
+	msg := fmt.Sprintf("Current Session Values: %v", sess.Values)
+	slog.Info(msg)
 
 	// Clear the session values
 	sess.Values["authenticated"] = false
