@@ -13,22 +13,8 @@ import (
 	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	"github.com/robfig/cron/v3"
 )
-
-func isAuthenticated(next echo.HandlerFunc) echo.HandlerFunc {
-	return func(c echo.Context) error {
-		sess, _ := session.Get("session", c)
-		if auth, ok := sess.Values["authenticated"].(bool); !ok || !auth {
-			// Redirect to login page or return an unauthorized error
-			return c.Redirect(http.StatusTemporaryRedirect, "/login")
-		}
-		return next(c)
-	}
-}
-
-func protectedHandler(c echo.Context) error {
-	return c.String(http.StatusOK, "protected")
-}
 
 func main() {
 	// enable .env variables
@@ -51,19 +37,25 @@ func main() {
 	app.Use(middleware.Logger())
 	app.Use(middleware.Recover())
 	app.Use(session.Middleware(sessions.NewCookieStore([]byte(sessionKey))))
+	app.Use(func(next echo.HandlerFunc) echo.HandlerFunc {
+		return func(c echo.Context) error {
+			cc := &handlers.CustomContext{Context: c}
+			return next(cc)
+		}
+	})
 
 	homeHandler := handlers.HomeHandler{}
 	aboutHandler := handlers.AboutHandler{}
 	userHandler := handlers.UserHandler{}
 	notfoundHandler := handlers.NotFoundHandler{}
 	soonHandler := handlers.SoonHandler{}
-	spaceHandler := handlers.NewSpaceManager("https://sfo3.digitaloceanspaces.com", "us-east-1")
+	// spaceHandler := handlers.NewSpaceManager("https://sfo3.digitaloceanspaces.com", "us-east-1")
+	gamePlateformHandler := handlers.GamePlateFormController{}
 
 	// Google OAuth2
 	googleHandler := handlers.NewGoogleHandler()
 
 	app.GET("/", homeHandler.IndexPage)
-	app.GET("/protected", protectedHandler, isAuthenticated)
 
 	app.GET("/login", googleHandler.HandleGoogleLogin)
 	app.GET("/auth/google/callback", googleHandler.HandleGoogleCallback)
@@ -73,16 +65,20 @@ func main() {
 
 	app.GET("/portfolio", soonHandler.SoonPage)
 
-	app.GET("/upload", func(c echo.Context) error {
+	app.GET("/g", gamePlateformHandler.HandleGamePlateformGallery)
 
-		err := spaceHandler.Upload("app/assets/dist/img/nick_profile.jpg")
+	app.GET("/g/:gameName", gamePlateformHandler.HandleGamePlateformShow)
 
-		if err != nil {
-			return c.String(500, err.Error())
-		}
+	// app.GET("/upload", func(c echo.Context) error {
 
-		return c.String(200, "OK")
-	}, isAuthenticated)
+	// 	err := spaceHandler.Upload("app/assets/dist/img/nick_profile.jpg")
+
+	// 	if err != nil {
+	// 		return c.String(500, err.Error())
+	// 	}
+
+	// 	return c.String(200, "OK")
+	// })
 
 	app.GET("/user", userHandler.HandleUserShow)
 	// Create a health check endpoint
@@ -99,6 +95,18 @@ func main() {
 	app.GET("*", notfoundHandler.NotFoundPage)
 
 	// // Serve static files
+	// Serve static files with custom headers
+	app.GET("/games/*", handlers.HandleGamePlateformStaticFiles)
+	// Setup a cron job for cleaning up extracted game files
+	c := cron.New()
+	_, err = c.AddFunc("@daily", func() {
+		handlers.CleanupExtractedFiles("/tmp")
+	})
+	if err != nil {
+		slog.Error("Error setting up cron job for cleanup: ", err)
+	}
+	c.Start()
+
 	// Serve embedded static files
 	app.GET("/dist/*", echo.WrapHandler(http.StripPrefix("/dist/", http.FileServer(assets.CreateFileSystem(false)))))
 

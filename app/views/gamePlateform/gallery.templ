@@ -1,0 +1,27 @@
+package gamePlateform
+
+import (
+	"github.com/blackflame007/nicklesseos.com/models"
+)
+
+templ Gallery(gameList []models.GameContent) {
+	<div class="px-5 ">
+		<h1 class="text-3xl sm:text-5xl text-center pb-5">Gallery</h1>
+		for _, game := range gameList {
+			<ul class="flex justify-center max-w-xs sm:max-w-md">
+				<div class="card w-96 bg-base-100 shadow-xl image-full">
+					<figure><img src={ game.Icon } alt={ game.Description }/></figure>
+					<div class="card-body">
+						<h2 class="card-title">{ game.Game }</h2>
+						<p>{ game.Description }</p>
+						<div class="card-actions justify-end">
+							<a href={ templ.URL(game.URL) }>
+								<button class="btn btn-primary">Play Now</button>
+							</a>
+						</div>
+					</div>
+				</div>
+			</ul>
+		}
+	</div>
+}

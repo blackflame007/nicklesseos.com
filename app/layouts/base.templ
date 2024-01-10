@@ -16,7 +16,7 @@ templ Base(view templ.Component, isAuthenticated bool) {
 			<link rel="icon" type="image/svg+xml" href="/dist/img/favicon.svg"/>
 			<script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
 		</head>
-		<body data-theme="night" class="grid grid-rows-[auto_1fr_auto] h-screen">
+		<body data-theme="night" class="grid grid-rows-[auto_1fr_auto] h-screen w-screen">
 			@header(isAuthenticated)
 			{ children... }
 			@view

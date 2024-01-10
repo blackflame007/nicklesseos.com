@@ -1,0 +1,14 @@
+package gamePlateform
+
+import (
+	"fmt"
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
+)
+
+templ Show(gameName string) {
+	<div class="flex justify-center items-center flex-col mb-5 py-12">
+		<h1 class="text-3xl sm:text-5xl mb-5">{ cases.Title(language.English, cases.Compact).String(gameName) }</h1>
+		<iframe src={ fmt.Sprintf("/games/%s/index.html", gameName) } width="864" height="936" class="max-w-screen-sm sm:max-w-full"></iframe>
+	</div>
+}

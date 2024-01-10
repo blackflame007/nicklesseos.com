@@ -9,7 +9,7 @@ import (
 //go:embed all:dist
 var embeddedFiles embed.FS
 
-// createFileSystem helps to create a file system for the embedded files.
+// CreateFileSystem helps to create a file system for the embedded files.
 func CreateFileSystem(useOS bool) http.FileSystem {
 	if useOS {
 		return http.FS(embeddedFiles)

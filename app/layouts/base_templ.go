@@ -50,7 +50,7 @@ func Base(view templ.Component, isAuthenticated bool) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</script></head><body data-theme=\"night\" class=\"grid grid-rows-[auto_1fr_auto] h-screen\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</script></head><body data-theme=\"night\" class=\"grid grid-rows-[auto_1fr_auto] h-screen w-screen\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
