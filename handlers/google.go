@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/blackflame007/nicklesseos.com/models"
 	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
 	"golang.org/x/oauth2"
@@ -71,13 +72,15 @@ func (gh GoogleHandler) HandleGoogleCallback(c echo.Context) error {
 	defer response.Body.Close()
 
 	contents, err := io.ReadAll(response.Body)
+	// debug log contents
+	fmt.Println("Contents: ", string(contents))
+
+	var userInfo models.UserInfo
+
 	if err != nil {
 		return c.String(http.StatusInternalServerError, "Failed to read user info: "+err.Error())
 	}
 
-	var userInfo struct {
-		Email string `json:"email"`
-	}
 	if err := json.Unmarshal(contents, &userInfo); err != nil {
 		return c.String(http.StatusInternalServerError, "Failed to parse user info: "+err.Error())
 	}
@@ -85,7 +88,8 @@ func (gh GoogleHandler) HandleGoogleCallback(c echo.Context) error {
 	// Here you can implement logic to create or get a user in your system based on Google userInfo
 	sess, _ := session.Get("session", c)
 	sess.Values["authenticated"] = true
-	sess.Values["user_email"] = userInfo.Email
+	sess.Values["user"] = &userInfo.FullName
+	sess.Options.MaxAge = 86400 // 24 hours
 	sess.Save(c.Request(), c.Response())
 
 	// Redirect or handle the login success
@@ -99,14 +103,9 @@ func (gh GoogleHandler) HandleLogout(c echo.Context) error {
 		slog.Error("Error getting session: ", err)
 		return err
 	}
-
-	// Log current session values for debugging
-	msg := fmt.Sprintf("Current Session Values: %v", sess.Values)
-	slog.Info(msg)
-
 	// Clear the session values
 	sess.Values["authenticated"] = false
-	sess.Values["user_email"] = ""
+	sess.Values["user"] = ""
 	sess.Options.MaxAge = -1 // Expire the session
 
 	err = sess.Save(c.Request(), c.Response())

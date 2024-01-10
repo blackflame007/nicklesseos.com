@@ -1,5 +1,11 @@
 package user
 
+import (
+  "github.com/blackflame007/nicklesseos.com/app/layouts"
+)
+
 templ Show() {
-  <h1>Hello, from the user page, lol2</h1>
+  <div>{ layouts.GetAuthenticatedUser(ctx) }
+    <h1>Hello, from the user page, lol2</h1>
+  </div>
 }

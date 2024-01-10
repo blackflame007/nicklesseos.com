@@ -8,5 +8,8 @@ import (
 type UserHandler struct{}
 
 func (h UserHandler) HandleUserShow(c echo.Context) error {
-	return render(c, user.Show())
+	cc := c.(*CustomContext)
+	cc.IsAuthenticated()
+	cc.GetData("user")
+	return render(cc, user.Show())
 }
