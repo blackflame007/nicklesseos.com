@@ -20,7 +20,7 @@ COPY ./ ./
 RUN make build-js
 
 # Final stage for Go
-FROM golang:1.21 as builder-go
+FROM golang:1.22.3 as builder-go
 
 # Set the working directory inside the container
 WORKDIR /app

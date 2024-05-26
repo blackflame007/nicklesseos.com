@@ -9,6 +9,54 @@ import (
 templ Show(gameName string) {
 	<div class="flex justify-center items-center flex-col mb-5 py-12">
 		<h1 class="text-3xl sm:text-5xl mb-5">{ cases.Title(language.English, cases.Compact).String(gameName) }</h1>
-		<iframe src={ fmt.Sprintf("/games/%s/index.html", gameName) } width="864" height="936" class="max-w-screen-sm sm:max-w-full"></iframe>
+		<iframe id="gameIframeId" src={ fmt.Sprintf("/games/%s/index.html", gameName) } width="864" height="936" class="max-w-screen-sm sm:max-w-full"></iframe>
+		<script>
+document.addEventListener("DOMContentLoaded", () => {
+    var iframe = document.getElementById("gameIframeId");
+
+    iframe.onload = () => {
+        try {
+            var iframeWindow = iframe.contentWindow;
+
+            var request = iframeWindow.indexedDB.open("/userfs", 21); // Adjust version as needed
+
+            request.onsuccess = function(event) {
+                var db = event.target.result;
+                var transaction = db.transaction(["FILE_DATA"], "readonly");
+                var objectStore = transaction.objectStore("FILE_DATA");
+
+                var fileRequest = objectStore.get("/userfs/godot/app_userdata/flappyBirdClone/flappybird.json");
+
+                fileRequest.onsuccess = function(event) {
+                    if (fileRequest.result && fileRequest.result.contents) {
+                        // Convert Int8Array to a string
+                        var contentsArray = Array.from(new Int8Array(fileRequest.result.contents));
+                        var jsonString = String.fromCharCode.apply(null, contentsArray);
+                        try {
+                            // Parse the JSON string
+                            var jsonData = JSON.parse(jsonString);
+                            console.log("High Score:", jsonData.high_score);
+                        } catch (parseError) {
+                            console.error("Error parsing JSON data:", parseError);
+                        }
+                    } else {
+                        console.log("No result found for the specified key.");
+                    }
+                };
+
+                fileRequest.onerror = function(event) {
+                    console.error("Error reading file data:", event);
+                };
+            };
+
+            request.onerror = function(event) {
+                console.error("Error opening IndexedDB:", event);
+            };
+        } catch (error) {
+            console.error("Error accessing iframe content:", error);
+        }
+    };
+});
+</script>
 	</div>
 }

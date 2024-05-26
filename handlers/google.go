@@ -12,6 +12,7 @@ import (
 	"os"
 
 	"github.com/blackflame007/nicklesseos.com/models"
+	service "github.com/blackflame007/nicklesseos.com/services"
 	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
 	"golang.org/x/oauth2"
@@ -20,9 +21,10 @@ import (
 
 type GoogleHandler struct {
 	googleOauthConfig *oauth2.Config
+	userService       *service.UserService
 }
 
-func NewGoogleHandler() GoogleHandler {
+func NewGoogleHandler(userService *service.UserService) GoogleHandler {
 	redirectURL := os.Getenv("GOOGLE_OAUTH_REDIRECT_URL") // Set this in your environment
 	if redirectURL == "" {
 		redirectURL = "http://localhost:3000/auth/google/callback" // Default for development
@@ -84,6 +86,13 @@ func (gh GoogleHandler) HandleGoogleCallback(c echo.Context) error {
 	if err := json.Unmarshal(contents, &userInfo); err != nil {
 		return c.String(http.StatusInternalServerError, "Failed to parse user info: "+err.Error())
 	}
+
+	gh.userService.CreateUserTable()
+
+	// user := models.User{
+	// 	UserInfo: userInfo,
+	// }
+	// gh.userService.InsertUser(user)
 
 	// Here you can implement logic to create or get a user in your system based on Google userInfo
 	sess, _ := session.Get("session", c)

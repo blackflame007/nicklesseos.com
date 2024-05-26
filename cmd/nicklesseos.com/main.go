@@ -2,12 +2,15 @@
 package main
 
 import (
+	"fmt"
+	"log"
 	"log/slog"
 	"net/http"
 	"os"
 
 	"github.com/blackflame007/nicklesseos.com/app/assets"
 	"github.com/blackflame007/nicklesseos.com/handlers"
+	service "github.com/blackflame007/nicklesseos.com/services"
 	"github.com/gorilla/sessions"
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo-contrib/session"
@@ -34,7 +37,7 @@ func main() {
 	app := echo.New()
 
 	// Root level middleware
-	app.Use(middleware.Logger())
+	// app.Use(middleware.Logger())
 	app.Use(middleware.Recover())
 	app.Use(session.Middleware(sessions.NewCookieStore([]byte(sessionKey))))
 	app.Use(func(next echo.HandlerFunc) echo.HandlerFunc {
@@ -50,10 +53,16 @@ func main() {
 	notfoundHandler := handlers.NotFoundHandler{}
 	soonHandler := handlers.SoonHandler{}
 	// spaceHandler := handlers.NewSpaceManager("https://sfo3.digitaloceanspaces.com", "us-east-1")
-	gamePlateformHandler := handlers.GamePlateFormController{}
+	dbService, err := service.NewDatabaseService(fmt.Sprintf("%s?authToken=%s", os.Getenv("DB_URL"), os.Getenv("DB_AUTH_TOKEN")))
+	if err != nil {
+		log.Fatalf("Failed to initialize database service: %s", err)
+	}
+	userService := service.NewUserService(dbService)
+
+	gamePlateFormController := handlers.NewGamePlateFormController(userService)
 
 	// Google OAuth2
-	googleHandler := handlers.NewGoogleHandler()
+	googleHandler := handlers.NewGoogleHandler(userService)
 
 	app.GET("/", homeHandler.IndexPage)
 
@@ -65,9 +74,9 @@ func main() {
 
 	app.GET("/portfolio", soonHandler.SoonPage)
 
-	app.GET("/g", gamePlateformHandler.HandleGamePlateformGallery)
+	app.GET("/g", gamePlateFormController.HandleGamePlateformGallery)
 
-	app.GET("/g/:gameName", gamePlateformHandler.HandleGamePlateformShow)
+	app.GET("/g/:gameName", gamePlateFormController.HandleGamePlateformShow)
 
 	// app.GET("/upload", func(c echo.Context) error {
 

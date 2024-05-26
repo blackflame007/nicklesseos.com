@@ -14,11 +14,20 @@ import (
 
 	"github.com/blackflame007/nicklesseos.com/app/views/gamePlateform"
 	"github.com/blackflame007/nicklesseos.com/models"
+	service "github.com/blackflame007/nicklesseos.com/services"
 	"github.com/labstack/echo/v4"
 )
 
 // GamePlateFormController handles all the platform methods
-type GamePlateFormController struct{}
+type GamePlateFormController struct {
+	userService *service.UserService
+}
+
+func NewGamePlateFormController(userService *service.UserService) *GamePlateFormController {
+	return &GamePlateFormController{
+		userService: userService,
+	}
+}
 
 // HandleGamePlateformGallery is the method to control code for the gallery
 func (h GamePlateFormController) HandleGamePlateformGallery(c echo.Context) error {
@@ -107,8 +116,12 @@ func (h GamePlateFormController) HandleGamePlateformShow(c echo.Context) error {
 		return err // Handle error
 	}
 
-	// Serve the extracted files (implement this in your router setup)
-	// e.Static(fmt.Sprintf("/games/%s", gameName), extractedFolderPath)
+	leaderboard, err := h.userService.GetLeaderboard()
+	if err != nil {
+		slog.Error("Error getting leaderboard: ", err)
+		return err
+	}
+	fmt.Println(leaderboard)
 
 	// Pass the extracted game path to the render function
 	return render(cc, gamePlateform.Show(gameName))
