@@ -4,7 +4,8 @@ build-js:
 	@npm --prefix ./app install
 	@npm --prefix ./app run build
 
-build:
+build: build-js
+	@go run github.com/a-h/templ/cmd/templ@latest fmt .
 	@go run github.com/a-h/templ/cmd/templ@latest generate
 	@go build -o ./tmp/main ./cmd/nicklesseos.com/main.go
 	@chmod +x ./tmp/main

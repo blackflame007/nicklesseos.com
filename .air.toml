@@ -6,7 +6,7 @@ tmp_dir = "tmp"
 args_bin = []
 bin = "./tmp/main"
 # Array of commands to run before each build
-pre_cmd = ["make build-js"]
+# pre_cmd = ["make build-js"]
 cmd = "make build"
 delay = 0
 exclude_dir = [
@@ -19,7 +19,7 @@ exclude_dir = [
 ]
 exclude_file = []
 exclude_regex = ["_test.go", "_templ.go", "bundle.js", "bundle.css"]
-exclude_unchanged = false
+exclude_unchanged = true
 follow_symlink = false
 full_bin = ""
 include_dir = ["cmd", "src", "app", "models", "handlers", "services"]
@@ -51,3 +51,8 @@ clean_on_exit = false
 [screen]
 clear_on_rebuild = false
 keep_scroll = true
+
+[proxy]
+enabled = true
+proxy_port = 3001
+app_port = 3000

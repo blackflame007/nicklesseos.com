@@ -1,7 +1,41 @@
-FROM golang:1.22.3
+# Build stage for Node.js
+FROM node:21-slim as builder-node
+
+# Set the working directory for Node.js
+WORKDIR /app
+
+# Install make
+RUN apt-get update && apt-get install -y make
+
+# Copy make file
+COPY Makefile ./
+
+# Copy the Node.js application and dependencies
+COPY app/package.json app/package-lock.json ./
+
+# Copy the frontend source code
+COPY ./ ./
+
+# Build the Node.js frontend
+RUN make build-js
+
+FROM golang:1.22.3 as builder-go
 
 # Set destination for COPY
 WORKDIR /app
+
+# Install make
+RUN apt-get update && apt-get install -y nodejs npm
+
+# Create a non-root user blackflame
+RUN adduser --disabled-password --gecos '' blackflame
+
+# Change ownership of Go module cache directories
+RUN mkdir /.cache
+RUN chown -R 1000:1000 /.cache /app
+
+# Switch to the non-root user
+USER 1000:1000
 
 # Download Go modules
 COPY go.mod go.sum ./
