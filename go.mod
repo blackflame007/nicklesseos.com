@@ -4,12 +4,13 @@ go 1.22.3
 
 require (
 	github.com/a-h/templ v0.2.707
+	github.com/alexedwards/scs/v2 v2.8.0
 	github.com/aws/aws-sdk-go v1.49.14
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gorilla/sessions v1.2.2
 	github.com/joho/godotenv v1.5.1
 	github.com/labstack/echo-contrib v0.15.0
 	github.com/labstack/echo/v4 v4.11.3
-	github.com/robfig/cron/v3 v3.0.1
 	github.com/tursodatabase/libsql-client-go v0.0.0-20231216154754-8383a53d618f
 	golang.org/x/oauth2 v0.15.0
 	golang.org/x/text v0.14.0

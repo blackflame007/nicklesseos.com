@@ -20,3 +20,8 @@ func render(c echo.Context, component templ.Component) error {
 
 	return layout.Render(c.Request().Context(), c.Response())
 }
+
+// RenderComponent renders a component with the given context without a layout
+func renderComponent(c echo.Context, component templ.Component) error {
+	return component.Render(c.Request().Context(), c.Response())
+}

@@ -5,7 +5,6 @@ import (
 	"crypto/rand"
 	"encoding/base64"
 	"encoding/json"
-	"fmt"
 	"io"
 	"log/slog"
 	"net/http"
@@ -38,6 +37,7 @@ func NewGoogleHandler(userService *service.UserService) GoogleHandler {
 			Scopes:       []string{"https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile", "openid"},
 			Endpoint:     google.Endpoint,
 		},
+		userService: userService,
 	}
 }
 
@@ -74,8 +74,6 @@ func (gh GoogleHandler) HandleGoogleCallback(c echo.Context) error {
 	defer response.Body.Close()
 
 	contents, err := io.ReadAll(response.Body)
-	// debug log contents
-	fmt.Println("Contents: ", string(contents))
 
 	var userInfo models.UserInfo
 
@@ -89,17 +87,30 @@ func (gh GoogleHandler) HandleGoogleCallback(c echo.Context) error {
 
 	gh.userService.CreateUserTable()
 
-	// user := models.User{
-	// 	UserInfo: userInfo,
-	// }
-	// gh.userService.InsertUser(user)
+	user := models.User{
+		UserInfo: userInfo,
+	}
+	gh.userService.InsertUser(user)
+
+	// Check the users rank
+	rank := gh.userService.CheckRank(userInfo.Email)
 
 	// Here you can implement logic to create or get a user in your system based on Google userInfo
 	sess, _ := session.Get("session", c)
 	sess.Values["authenticated"] = true
 	sess.Values["user"] = &userInfo.FullName
+	sess.Values["email"] = userInfo.Email
+	sess.Values["rank"] = rank
 	sess.Options.MaxAge = 86400 // 24 hours
 	sess.Save(c.Request(), c.Response())
+
+	// Retrieve the original URL and redirect
+	originalURL := sess.Values["original_url"]
+	if originalURL != nil {
+		delete(sess.Values, "original_url")
+		sess.Save(c.Request(), c.Response())
+		return c.Redirect(http.StatusTemporaryRedirect, originalURL.(string))
+	}
 
 	// Redirect or handle the login success
 	return c.Redirect(http.StatusTemporaryRedirect, "/")
@@ -115,6 +126,8 @@ func (gh GoogleHandler) HandleLogout(c echo.Context) error {
 	// Clear the session values
 	sess.Values["authenticated"] = false
 	sess.Values["user"] = ""
+	sess.Values["email"] = ""
+	sess.Values["rank"] = 0
 	sess.Options.MaxAge = -1 // Expire the session
 
 	err = sess.Save(c.Request(), c.Response())

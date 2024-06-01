@@ -6,6 +6,11 @@ module.exports = {
     './components/**/*.{templ,js,html}',
     // Add any other directories where you use Tailwind CSS classes
   ],
+  safelist: [
+    {
+      pattern: /alert-+/, // You can display all the colors that you need
+    },
+  ],
   daisyui: {
     themes: [
       "night",

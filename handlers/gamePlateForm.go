@@ -88,44 +88,44 @@ func contains(slice []string, str string) bool {
 }
 
 // HandleGamePlateformShow is the method to handle an individual game
-func (h GamePlateFormController) HandleGamePlateformShow(c echo.Context) error {
-	cc := c.(*CustomContext)
-	cc.IsAuthenticated()
-	cc.GetData("user")
-	cc.AddGameHeaders()
+// func (h GamePlateFormController) HandleGamePlateformShow(c echo.Context) error {
+// 	cc := c.(*CustomContext)
+// 	cc.IsAuthenticated()
+// 	cc.GetData("user")
+// 	cc.AddGameHeaders()
 
-	// Get the URL param for the game name
-	gameName := c.Param("gameName")
+// 	// Get the URL param for the game name
+// 	gameName := c.Param("gameName")
 
-	spaceHandler := NewSpaceManager("https://sfo3.digitaloceanspaces.com", "us-east-1")
+// 	spaceHandler := NewSpaceManager("https://sfo3.digitaloceanspaces.com", "us-east-1")
 
-	// Construct the paths
-	zipPath := fmt.Sprintf("/games/%s.zip", gameName)
-	localZipPath := fmt.Sprintf("/tmp/%s.zip", gameName)    // Temporary local path
-	extractedFolderPath := fmt.Sprintf("/tmp/%s", gameName) // Extracted files path
+// 	// Construct the paths
+// 	zipPath := fmt.Sprintf("/games/%s.zip", gameName)
+// 	localZipPath := fmt.Sprintf("/tmp/%s.zip", gameName)    // Temporary local path
+// 	extractedFolderPath := fmt.Sprintf("/tmp/%s", gameName) // Extracted files path
 
-	// Download the zip file
-	err := spaceHandler.DownloadFile(zipPath, localZipPath)
-	if err != nil {
-		return err // Handle error
-	}
+// 	// Download the zip file
+// 	err := spaceHandler.DownloadFile(zipPath, localZipPath)
+// 	if err != nil {
+// 		return err // Handle error
+// 	}
 
-	// Extract the zip file
-	err = extractZip(localZipPath, extractedFolderPath)
-	if err != nil {
-		return err // Handle error
-	}
+// 	// Extract the zip file
+// 	err = extractZip(localZipPath, extractedFolderPath)
+// 	if err != nil {
+// 		return err // Handle error
+// 	}
 
-	leaderboard, err := h.userService.GetLeaderboard()
-	if err != nil {
-		slog.Error("Error getting leaderboard: ", err)
-		return err
-	}
-	fmt.Println(leaderboard)
+// 	leaderboard, err := h.userService.GetLeaderboard()
+// 	if err != nil {
+// 		slog.Error("Error getting leaderboard: ", err)
+// 		return err
+// 	}
+// 	fmt.Println(leaderboard)
 
-	// Pass the extracted game path to the render function
-	return render(cc, gamePlateform.Show(gameName))
-}
+// 	// Pass the extracted game path to the render function
+// 	return render(cc, gamePlateform.Show(gameName))
+// }
 
 // extractZip extracts a zip file to a specified destination
 func extractZip(src, dest string) error {

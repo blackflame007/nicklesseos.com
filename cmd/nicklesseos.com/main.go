@@ -16,7 +16,6 @@ import (
 	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
-	"github.com/robfig/cron/v3"
 )
 
 func main() {
@@ -37,7 +36,7 @@ func main() {
 	app := echo.New()
 
 	// Root level middleware
-	// app.Use(middleware.Logger())
+	app.Use(middleware.Logger())
 	app.Use(middleware.Recover())
 	app.Use(session.Middleware(sessions.NewCookieStore([]byte(sessionKey))))
 	app.Use(func(next echo.HandlerFunc) echo.HandlerFunc {
@@ -47,11 +46,12 @@ func main() {
 		}
 	})
 
-	homeHandler := handlers.HomeHandler{}
-	aboutHandler := handlers.AboutHandler{}
-	userHandler := handlers.UserHandler{}
-	notfoundHandler := handlers.NotFoundHandler{}
-	soonHandler := handlers.SoonHandler{}
+	app.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: []string{"*"},
+		AllowMethods: []string{http.MethodGet, http.MethodHead, http.MethodPut, http.MethodPatch, http.MethodPost, http.MethodDelete},
+	}))
+	app.Use(middleware.MethodOverride())
+
 	// spaceHandler := handlers.NewSpaceManager("https://sfo3.digitaloceanspaces.com", "us-east-1")
 	dbService, err := service.NewDatabaseService(fmt.Sprintf("%s?authToken=%s", os.Getenv("DB_URL"), os.Getenv("DB_AUTH_TOKEN")))
 	if err != nil {
@@ -59,7 +59,22 @@ func main() {
 	}
 	userService := service.NewUserService(dbService)
 
-	gamePlateFormController := handlers.NewGamePlateFormController(userService)
+	// Home handler
+	homeHandler := handlers.HomeHandler{}
+	// About handler
+	aboutHandler := handlers.AboutHandler{}
+	// User handler
+	userHandler := handlers.UserHandler{}
+	// 404 handler
+	notfoundHandler := handlers.NotFoundHandler{}
+	soonHandler := handlers.SoonHandler{}
+
+	// Admin panel handler
+	adminHandler := handlers.NewAdminHandler(userService)
+	// // Blog handler
+	// blogHandler := handlers.BlogHandler{}
+
+	// gamePlateFormController := handlers.NewGamePlateFormController(userService)
 
 	// Google OAuth2
 	googleHandler := handlers.NewGoogleHandler(userService)
@@ -74,21 +89,33 @@ func main() {
 
 	app.GET("/portfolio", soonHandler.SoonPage)
 
-	app.GET("/g", gamePlateFormController.HandleGamePlateformGallery)
+	// Blog and comments
+	// app.GET("/b", blogHandler.HandleBlogIndex)
+	// app.GET("/b/:slug", blogHandler.HandleBlogShow)
+	// app.POST("/b/:slug/comment", blogHandler.HandleBlogCommentCreate)
 
-	app.GET("/g/:gameName", gamePlateFormController.HandleGamePlateformShow)
+	// Admin panel routes
+	app.GET("/admin", adminHandler.HandleAdminIndex)
+	app.POST("/admin/generate_token", adminHandler.GenerateToken)
+	app.GET("/admin/tokens", adminHandler.TokensPage)
+	app.DELETE("/admin/revoke_token/:id", adminHandler.RevokeToken)
+	app.GET("/admin/toggle_form", adminHandler.TokenFormComponent) // Add this route
 
-	// app.GET("/upload", func(c echo.Context) error {
+	// // Admin blog routes
+	// app.GET("/admin/blog", adminHandler.HandleAdminBlogIndex)
+	// app.GET("/admin/blog/new", adminHandler.HandleAdminBlogNew)
+	// app.POST("/admin/blog/new", adminHandler.HandleAdminBlogCreate)
+	// app.GET("/admin/blog/edit/:slug", adminHandler.HandleAdminBlogEdit)
+	// app.POST("/admin/blog/edit/:slug", adminHandler.HandleAdminBlogUpdate)
+	// app.POST("/admin/blog/delete/:slug", adminHandler.HandleAdminBlogDelete)
+	// // Admin user routes
+	// app.GET("/admin/user", adminHandler.HandleAdminUserIndex)
+	// app.GET("/admin/user/edit/:id", adminHandler.HandleAdminUserEdit)
 
-	// 	err := spaceHandler.Upload("app/assets/dist/img/nick_profile.jpg")
+	// API routes
+	// app.GET("/api/resource", someHandler, middleware.JWTAuth)
 
-	// 	if err != nil {
-	// 		return c.String(500, err.Error())
-	// 	}
-
-	// 	return c.String(200, "OK")
-	// })
-
+	// User routes
 	app.GET("/user", userHandler.HandleUserShow)
 	// Create a health check endpoint
 	app.GET("/health", func(c echo.Context) error {
@@ -104,17 +131,17 @@ func main() {
 	app.GET("*", notfoundHandler.NotFoundPage)
 
 	// // Serve static files
-	// Serve static files with custom headers
-	app.GET("/games/*", handlers.HandleGamePlateformStaticFiles)
-	// Setup a cron job for cleaning up extracted game files
-	c := cron.New()
-	_, err = c.AddFunc("@daily", func() {
-		handlers.CleanupExtractedFiles("/tmp")
-	})
-	if err != nil {
-		slog.Error("Error setting up cron job for cleanup: ", err)
-	}
-	c.Start()
+	// // Serve static files with custom headers
+	// app.GET("/games/*", handlers.HandleGamePlateformStaticFiles)
+	// // Setup a cron job for cleaning up extracted game files
+	// c := cron.New()
+	// _, err = c.AddFunc("@daily", func() {
+	// 	handlers.CleanupExtractedFiles("/tmp")
+	// })
+	// if err != nil {
+	// 	slog.Error("Error setting up cron job for cleanup: ", err)
+	// }
+	// c.Start()
 
 	// Serve embedded static files
 	app.GET("/dist/*", echo.WrapHandler(http.StripPrefix("/dist/", http.FileServer(assets.CreateFileSystem(false)))))

@@ -16,3 +16,6 @@
     animation: spin 10s linear infinite;
   }
   
+  [x-cloak] {
+    display: none;
+  }
