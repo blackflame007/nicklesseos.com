@@ -6,7 +6,7 @@ import (
 )
 
 templ Tokens(tokenList []models.Token) {
-	<div class="flex flex-col p-5" x-data="{ formShown: false, showModal: false, modalTokenName: '', modalTokenId: null }">
+	<div class="flex flex-col p-5" x-data="{ formShown: false, modalTokenName: '', modalTokenId: null }">
 		<h1 class="text-2xl self-center">Tokens</h1>
 		<div class="flex flex-row my-5">
 			<button
@@ -33,7 +33,7 @@ templ Tokens(tokenList []models.Token) {
 				</thead>
 				<tbody>
 					for _, token := range tokenList {
-						<tr>
+						<tr x-data={ fmt.Sprintf("{ showModal%d: false }", token.ID) }>
 							<td>{ fmt.Sprintf("%d", token.ID) }</td>
 							<td>{ token.Name }</td>
 							<td>{ fmt.Sprintf("%s", token.CreatedAt.Format("2006-01-02")) }</td>
@@ -45,7 +45,7 @@ templ Tokens(tokenList []models.Token) {
 							<td>
 								<button
 									class="btn btn-danger"
-									@click={ fmt.Sprintf("showModal = true; modalTokenName = '%s'; modalTokenId = %d", token.Name, token.ID) }
+									@click={ fmt.Sprintf("showModal%d = true; modalTokenName = '%s'; modalTokenId = %d", token.ID, token.Name, token.ID) }
 								>
 									Delete
 								</button>
@@ -60,9 +60,9 @@ templ Tokens(tokenList []models.Token) {
 }
 
 templ DeleteModal(id int, name string) {
-	<div id="deleteModal" class="modal modal-open modal-middle" x-data="{ open: false }" x-show="showModal" x-cloak>
+	<div id="deleteModal" class="modal modal-open modal-middle" x-show={ fmt.Sprintf("showModal%d", id) } x-cloak>
 		<div class="modal-box">
-			<span class="close" @click="showModal = false">&times;</span>
+			<span class="close" @click={ fmt.Sprintf("showModal%d = false", id) }>&times;</span>
 			<p>Are you sure you want to delete the token <span id="tokenName">{ name }</span>?</p>
 			<div class="modal-action center">
 				<form
@@ -76,11 +76,11 @@ templ DeleteModal(id int, name string) {
 					<button
 						class="btn btn-danger"
 						id="confirmDeleteButton"
-						@click="showModal = false"
+						@click={ fmt.Sprintf("showModal%d = false", id) }
 						type="submit"
 					>Delete</button>
 				</form>
-				<button class="btn btn-secondary" @click="showModal = false">Cancel</button>
+				<button class="btn btn-secondary" @click={ fmt.Sprintf("showModal%d = false", id) }>Cancel</button>
 			</div>
 		</div>
 	</div>
@@ -100,38 +100,4 @@ templ TokenForm() {
 			<button type="submit" class="btn btn-primary">Create</button>
 		</div>
 	</form>
-}
-
-templ Alert(message string, messageType string) {
-	<div
-		role="alert"
-		class={ fmt.Sprintf("alert alert-%s", messageType) }
-		x-data="{ alertShow: true }"
-		x-show="alertShow"
-		x-transition:enter="transition ease-out duration-300"
-		x-transition:enter-start="opacity-0 transform scale-90"
-		x-transition:enter-end="opacity-100 transform scale-100"
-		x-transition:leave="transition ease-in duration-300"
-		x-transition:leave-start="opacity-100 transform scale-100"
-		x-transition:leave-end="opacity-0 transform scale-90"
-	>
-		<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-		<span>{ message }</span>
-		<button
-			class="btn btn-sm"
-			@click="alertShow = false"
-		>
-			X
-		</button>
-	</div>
-}
-
-templ Toast(message string, messageType string) {
-	<div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 3000)" class="toast toast-top toast-center">
-		<div
-			class={ fmt.Sprintf("alert alert-%s", messageType) }
-		>
-			<span>{ message }</span>
-		</div>
-	</div>
 }

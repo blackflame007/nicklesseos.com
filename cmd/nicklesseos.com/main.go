@@ -99,7 +99,6 @@ func main() {
 	app.POST("/admin/generate_token", adminHandler.GenerateToken)
 	app.GET("/admin/tokens", adminHandler.TokensPage)
 	app.DELETE("/admin/revoke_token/:id", adminHandler.RevokeToken)
-	app.GET("/admin/toggle_form", adminHandler.TokenFormComponent) // Add this route
 
 	// // Admin blog routes
 	// app.GET("/admin/blog", adminHandler.HandleAdminBlogIndex)

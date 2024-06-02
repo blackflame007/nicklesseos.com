@@ -9,6 +9,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/blackflame007/nicklesseos.com/app/components"
 	"github.com/blackflame007/nicklesseos.com/app/views/admin"
 	service "github.com/blackflame007/nicklesseos.com/services"
 	"github.com/blackflame007/nicklesseos.com/utils"
@@ -92,7 +93,7 @@ func (h AdminHandler) GenerateToken(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to save token"})
 	}
 
-	return renderComponent(c, admin.Alert(token, "info"))
+	return renderComponent(c, components.Alert(token, "info"))
 }
 
 func (h AdminHandler) TokensPage(c echo.Context) error {
@@ -159,5 +160,5 @@ func (h AdminHandler) RevokeToken(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to revoke token"})
 	}
 
-	return renderComponent(c, admin.Toast(fmt.Sprintf("Token ID: %d has been deleted", tokenID), "warning")) // Show the form
+	return renderComponent(c, components.Toast(fmt.Sprintf("Token ID: %d has been deleted", tokenID), "warning")) // Show the form
 }
