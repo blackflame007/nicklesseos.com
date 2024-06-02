@@ -1,0 +1,15 @@
+package components
+
+import (
+	"fmt"
+)
+
+templ Toast(message string, messageType string) {
+	<div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 3000)" class="toast toast-top toast-center">
+		<div
+			class={ fmt.Sprintf("alert alert-%s", messageType) }
+		>
+			<span>{ message }</span>
+		</div>
+	</div>
+}
