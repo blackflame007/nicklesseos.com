@@ -54,5 +54,5 @@ variable "db_url" {
 
 variable "db_auth_token" {
   description = "Turso Database Auth Token"
-  type        = number
+  type        = string
 }
