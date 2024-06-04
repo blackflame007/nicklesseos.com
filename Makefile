@@ -7,6 +7,7 @@ build-js:
 build: build-js
 	@go run github.com/a-h/templ/cmd/templ@latest fmt .
 	@go run github.com/a-h/templ/cmd/templ@latest generate
+	@mkdir -p ./tmp
 	@go build -o ./tmp/main ./cmd/nicklesseos.com/main.go
 	@chmod +x ./tmp/main
 
