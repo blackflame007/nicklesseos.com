@@ -4,14 +4,14 @@ import (
 	"os"
 	"time"
 
-	"github.com/dgrijalva/jwt-go"
+	"github.com/golang-jwt/jwt/v5"
 )
 
 var jwtSecret = []byte(os.Getenv("JWT_SECRET"))
 
 type Claims struct {
 	Email string `json:"email"`
-	jwt.StandardClaims
+	jwt.RegisteredClaims
 }
 
 func GenerateToken(email string, expirationTime *time.Time) (string, error) {
@@ -23,8 +23,9 @@ func GenerateToken(email string, expirationTime *time.Time) (string, error) {
 	}
 	claims := &Claims{
 		Email: email,
-		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: exp,
+		RegisteredClaims: jwt.RegisteredClaims{
+			ExpiresAt: jwt.NewNumericDate(time.Unix(exp, 0)), // Convert exp to time.Time
+			IssuedAt:  jwt.NewNumericDate(time.Now()),
 		},
 	}
 
