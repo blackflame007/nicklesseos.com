@@ -25,6 +25,9 @@ FROM golang:1.22.3 as builder-go
 # Set the working directory inside the container
 WORKDIR /app
 
+# Install make
+RUN apt-get update && apt-get install -y nodejs npm
+
 # Copy go.mod and go.sum first to leverage Docker cache
 COPY go.mod go.sum ./
 RUN go mod download
