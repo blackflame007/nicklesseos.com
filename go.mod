@@ -4,7 +4,6 @@ go 1.22.3
 
 require (
 	github.com/a-h/templ v0.2.707
-	github.com/alexedwards/scs/v2 v2.8.0
 	github.com/aws/aws-sdk-go v1.49.14
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gorilla/sessions v1.2.2

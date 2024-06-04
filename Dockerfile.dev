@@ -56,4 +56,4 @@ RUN CGO_ENABLED=0 GOOS=linux go build -o ./tmp/main cmd/nicklesseos.com/main.go
 EXPOSE 3000
 
 # Run the application
-CMD ["go", "run", "github.com/cosmtrek/air@latest"]
+CMD ["go", "run", "github.com/air-verse/air@latest"]

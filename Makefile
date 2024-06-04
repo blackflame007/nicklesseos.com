@@ -12,7 +12,7 @@ build: build-js
 	@chmod +x ./tmp/main
 
 dev:
-	@go run github.com/cosmtrek/air@latest
+	@go run github.com/air-verse/air@latest
 
 run:
 	@./tmp/main
