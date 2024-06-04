@@ -38,6 +38,21 @@ resource "digitalocean_app" "nicklesseos-com" {
       value = var.session_secret
     }
 
+    env {
+      key   = "JWT_SECRET"
+      value = var.jwt_secret
+    }
+
+    env {
+      key   = "DB_URL"
+      value = var.db_url
+    }
+
+    env {
+      key   = "DB_AUTH_TOKEN"
+      value = var.db_auth_token
+    }
+
     // Define the domain
     domain {
       name     = digitalocean_domain.default.name

@@ -41,3 +41,18 @@ variable "session_secret" {
   description = "Session Secret"
   type        = string
 }
+
+variable "jwt_secret" {
+  description = "JWT Secret"
+  type        = string
+}
+
+variable "db_url" {
+  description = "Turso Database Url"
+  type        = string
+}
+
+variable "db_auth_token" {
+  description = "Turso Database Auth Token"
+  type        = number
+}

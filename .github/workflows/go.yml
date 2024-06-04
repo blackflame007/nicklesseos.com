@@ -40,6 +40,9 @@ jobs:
           TF_VAR_google_client_secret: ${{ secrets.GOOGLE_CLIENT_SECRET }}
           TF_VAR_google_oauth_redirect_url: ${{ secrets.GOOGLE_OAUTH_REDIRECT_URL }}
           TF_VAR_session_secret: ${{ secrets.SESSION_KEY }}
+          TF_VAR_jwt_secret: ${{ secrets.JWT_SECRET }}
+          TF_VAR_db_url: ${{ secrets.DB_URL }}
+          TF_VAR_db_auth_token: ${{ secrets.DB_AUTH_TOKEN }}
 
       - name: Terraform Apply
         run: terraform -chdir=terraform apply -auto-approve
@@ -52,3 +55,6 @@ jobs:
           TF_VAR_google_client_secret: ${{ secrets.GOOGLE_CLIENT_SECRET }}
           TF_VAR_google_oauth_redirect_url: ${{ secrets.GOOGLE_OAUTH_REDIRECT_URL }}
           TF_VAR_session_secret: ${{ secrets.SESSION_KEY }}
+          TF_VAR_jwt_secret: ${{ secrets.JWT_SECRET }}
+          TF_VAR_db_url: ${{ secrets.DB_URL }}
+          TF_VAR_db_auth_token: ${{ secrets.DB_AUTH_TOKEN }}
